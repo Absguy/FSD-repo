@@ -38,7 +38,7 @@ const AuthPage = () => {
     try {
       const res = await axios.post(`${API_URL}${endpoint}`, payload);
       if (isLogin) {
-        if (userType === 'admin' && res.data?.user?.role !== 'admin') {
+        if (userType === 'admin' && res.data?.user?.role !== 'admin' && res.data?.user?.role !== 'superadmin') {
           setError("This account is not an admin.");
           return;
         }
