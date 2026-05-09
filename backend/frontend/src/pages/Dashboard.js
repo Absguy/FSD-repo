@@ -38,6 +38,7 @@ const Dashboard = () => {
       });
       navigate(`/room/${res.data.roomId}`);
     } catch (err) {
+      alert(err.response?.data?.errors?.[0]?.msg || err.response?.data?.message || 'Failed to create room');
       console.error(err);
     }
   };
