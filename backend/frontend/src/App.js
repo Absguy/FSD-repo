@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/auth" />} />
         <Route path="/auth" element={!user ? <AuthPage /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/auth" />} />
-        <Route path="/admin" element={user?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/dashboard" />} />
+        <Route path="/admin" element={(user?.role === 'admin' || user?.role === 'superadmin') ? <AdminDashboard /> : <Navigate to="/dashboard" />} />
         {/* Guests can join rooms via invite link */}
         <Route path="/room/:roomId" element={<Workspace />} />
       </Routes>
