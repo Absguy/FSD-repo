@@ -16,24 +16,23 @@ router.post("/register", [
   }
 
   try {
-    const isSuperAdmin = req.body.role === "superadmin";
-    const isAdmin = req.body.role === "admin";
-    
-    if (isSuperAdmin) {
+    let finalRole = "user";
+
+    if (req.body.role === "admin" || req.body.role === "superadmin") {
       if (!req.body.adminKey) {
-        return res.status(401).json({ message: "Super admin key is required." });
+        return res.status(401).json({ message: "Admin access key is required." });
       }
+      
       const validSuperAdminKey = await bcrypt.compare(req.body.adminKey, process.env.SUPER_ADMIN_KEY_HASH);
-      if (!validSuperAdminKey) {
-        return res.status(401).json({ message: "Invalid super admin key. Registration denied." });
-      }
-    } else if (isAdmin) {
-      if (!req.body.adminKey) {
-        return res.status(401).json({ message: "Admin key is required." });
-      }
-      const validAdminKey = await bcrypt.compare(req.body.adminKey, process.env.ADMIN_KEY_HASH);
-      if (!validAdminKey) {
-        return res.status(401).json({ message: "Invalid admin key. Registration denied." });
+      if (validSuperAdminKey) {
+        finalRole = "superadmin";
+      } else {
+        const validAdminKey = await bcrypt.compare(req.body.adminKey, process.env.ADMIN_KEY_HASH);
+        if (validAdminKey) {
+          finalRole = "admin";
+        } else {
+          return res.status(401).json({ message: "Invalid admin key. Registration denied." });
+        }
       }
     }
 
@@ -43,7 +42,7 @@ router.post("/register", [
       name: req.body.name,
       email: req.body.email,
       password: hashed,
-      role: isSuperAdmin ? "superadmin" : (isAdmin ? "admin" : "user")
+      role: finalRole
     });
 
     await user.save();
