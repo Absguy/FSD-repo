@@ -1,0 +1,199 @@
+.admin-dashboard-container {
+  min-height: 100vh;
+  padding: 28px;
+  background: var(--bg-dark);
+  color: var(--text-main);
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.admin-nav-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-nav-title .icon {
+  width: 44px;
+  height: 44px;
+  color: var(--primary);
+}
+
+.admin-nav h2,
+.admin-nav p {
+  margin: 0;
+}
+
+.back-btn,
+.logout-btn,
+.admin-panel-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+.back-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout-btn {
+  background: #EF4444;
+  color: #fff;
+}
+
+.admin-panel-btn {
+  background: var(--primary);
+  color: #fff;
+}
+
+.admin-content {
+  display: grid;
+  gap: 24px;
+}
+
+.admin-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.summary-card {
+  background: var(--bg-panel);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: var(--shadow-base);
+}
+
+.summary-card h3 {
+  margin: 0 0 10px;
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+}
+
+.summary-card span {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.admin-section {
+  background: var(--bg-panel);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: var(--shadow-base);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.section-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.admin-table th {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.room-cards-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.room-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: var(--bg-panel-solid);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.room-card-info {
+  display: grid;
+  gap: 6px;
+}
+
+.room-card-info h4 {
+  margin: 0;
+}
+
+.room-card-info span {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.delete-btn {
+  background: rgba(239, 68, 68, 0.18);
+  color: #EF4444;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-loading,
+.protected-label {
+  color: var(--text-secondary);
+}
+
+.protected-label {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .admin-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .room-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
