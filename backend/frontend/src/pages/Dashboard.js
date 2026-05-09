@@ -108,7 +108,7 @@ const Dashboard = () => {
               <h1>Welcome, {user.name.split(' ')[0]}</h1>
               <p>Collaborate in real-time. Create a new workspace or join an existing one.</p>
             </div>
-            {user.role === 'admin' && (
+            {(user.role === 'admin' || user.role === 'superadmin') && (
               <button className="admin-panel-btn" onClick={() => navigate('/admin')}>
                 Admin Dashboard
               </button>

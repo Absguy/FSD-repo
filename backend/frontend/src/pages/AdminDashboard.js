@@ -29,7 +29,7 @@ const AdminDashboard = () => {
       }
     };
 
-    if (user?.role === 'admin') fetchAdminData();
+    if (user?.role === 'admin' || user?.role === 'superadmin') fetchAdminData();
   }, [user]);
 
   const handleDeleteUser = async (userId) => {
@@ -42,6 +42,12 @@ const AdminDashboard = () => {
     } catch (err) {
       alert(err?.response?.data?.message || 'Failed to delete user');
     }
+  };
+
+  const canDeleteUser = (targetRole) => {
+    if (user?.role === 'superadmin') return targetRole !== 'superadmin';
+    if (user?.role === 'admin') return targetRole === 'user';
+    return false;
   };
 
   const handleDeleteRoom = async (roomId) => {
@@ -109,7 +115,7 @@ const AdminDashboard = () => {
                         <td>{profile.email}</td>
                         <td>{profile.role}</td>
                         <td>
-                          {profile.role !== 'admin' ? (
+                          {canDeleteUser(profile.role) ? (
                             <button className="delete-btn" onClick={() => handleDeleteUser(profile._id)}>
                               <Trash2 size={14} /> Delete
                             </button>
