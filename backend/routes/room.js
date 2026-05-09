@@ -46,6 +46,17 @@ router.post("/join", auth, [
   res.json(room);
 });
 
+// Get Room Details (Public/Guest accessible for checking existence before socket join)
+router.get("/info/:roomId", async (req, res) => {
+  try {
+    const room = await Room.findOne({ roomId: req.params.roomId });
+    if (!room) return res.status(404).json({ message: "Room not found" });
+    res.json(room);
+  } catch (err) {
+    res.status(500).json({ message: err.message || "Server error" });
+  }
+});
+
 // Get User's Rooms
 router.get("/list/:userId", auth, async (req, res) => {
   try {

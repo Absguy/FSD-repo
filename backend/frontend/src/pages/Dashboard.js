@@ -43,18 +43,8 @@ const Dashboard = () => {
   };
 
   const handleJoinRoom = async () => {
-    if (!joinRoomId.trim()) return alert('Please enter a valid room ID');
-    try {
-      await axios.post(`${API_URL}/api/room/join`, {
-        roomId: joinRoomId,
-        userId: user._id
-      }, {
-        headers: { token: user.token }
-      });
-      navigate(`/room/${joinRoomId}`);
-    } catch (err) {
-      alert('Failed to join room. Verify the Room ID.');
-    }
+    if (!joinRoomId.trim()) return;
+    navigate(`/room/${joinRoomId}`);
   };
 
   const handleDeleteRoom = async (e, room) => {

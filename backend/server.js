@@ -140,6 +140,22 @@ io.on("connection", (socket) => {
     }
   });
 
+  // --- Admission Logic ---
+  socket.on("askToJoin", ({ roomId, username, userId }) => {
+    // If no one is in the room (owner is definitely offline), auto-deny
+    if (!users[roomId] || users[roomId].length === 0) {
+      socket.emit("admissionResponse", { admitted: false, reason: "Owner is offline" });
+      return;
+    }
+    // Forward the request to everyone in the room (the frontend will filter for the owner)
+    socket.to(roomId).emit("admissionRequest", { askerSocketId: socket.id, username, userId });
+  });
+
+  socket.on("admitDecision", ({ askerSocketId, admitted }) => {
+    // Send the decision directly to the waiting user
+    io.to(askerSocketId).emit("admissionResponse", { admitted, reason: admitted ? "" : "Denied by owner" });
+  });
+
   socket.on("codeChange", ({ roomId, code }) => {
     if (socket.user?.role === "guest") return; // Guests: no editing
     (async () => {
