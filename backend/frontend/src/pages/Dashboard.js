@@ -75,13 +75,29 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const ok = window.confirm("Are you sure you want to permanently delete your account? This action cannot be undone.");
+    if (!ok) return;
+
+    try {
+      await axios.delete(`${API_URL}/api/auth/delete-account`, {
+        headers: { token: user.token }
+      });
+      alert("Account successfully deleted.");
+      logout();
+    } catch (err) {
+      alert(err?.response?.data?.message || "Failed to delete account");
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <nav className="dashboard-nav">
         <h2><Code className="icon" /> CodeSphere</h2>
         <div className="nav-profile">
           <span>{user.name}</span>
-          <button onClick={logout} className="logout-btn"><LogOut size={18} /></button>
+          <button onClick={logout} className="logout-btn" title="Log Out"><LogOut size={18} /></button>
+          <button onClick={handleDeleteAccount} className="delete-account-btn" title="Delete Account"><Trash2 size={18} /></button>
         </div>
       </nav>
 

@@ -42,6 +42,21 @@
   color: #FCA5A5;
 }
 
+.delete-account-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #FCA5A5;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.delete-account-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  color: #fff;
+}
+
 .dashboard-header {
   margin-bottom: 40px;
 }

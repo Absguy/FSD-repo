@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
+const authMiddleware = require("../middleware/auth");
 
 // Register
 router.post("/register", [
@@ -77,6 +78,19 @@ router.post("/login", [
     res.json({ token, user });
   } catch (err) {
     res.status(400).json({ message: err.message || "An error occurred during login." });
+  }
+});
+
+// Delete Account
+router.delete("/delete-account", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+    
+    await User.findByIdAndDelete(userId);
+    res.json({ message: "Account deleted successfully." });
+  } catch (err) {
+    res.status(500).json({ message: "An error occurred while deleting the account." });
   }
 });
 
