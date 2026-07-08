@@ -425,3 +425,147 @@
   from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
 }
+
+/* GIF Selector and Message Styles */
+.gif-button-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.gif-toggle-btn {
+  background: transparent;
+  color: var(--text-muted);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.gif-toggle-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
+.gif-toggle-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gif-selector-popover {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 280px;
+  height: 320px;
+  background: var(--bg-panel-solid);
+  border: var(--panel-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 10px;
+  z-index: 100;
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.gif-search-container {
+  display: flex;
+}
+
+.gif-search-bar {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--text-main);
+  font-size: 13px;
+  outline: none;
+}
+
+.gif-search-bar:focus {
+  border-color: var(--primary);
+}
+
+.gif-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.gif-grid-item {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.gif-grid-item:hover {
+  transform: scale(1.03);
+  border-color: var(--primary);
+}
+
+.gif-loading, .gif-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 20px;
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-gif-bubble {
+  padding: 4px;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 200px;
+}
+
+.message-gif-img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+}
+
+.gif-logo-text {
+  font-size: 11px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #a5b4fc, #6366f1);
+  color: white;
+  padding: 3px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.giphy-attribution {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 4px;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+

@@ -27,7 +27,17 @@ const io = new Server(server, {
 });
 
 app.use(cors(corsOptions));
-app.use(helmet()); // Secure HTTP headers (includes HSTS)
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "img-src": ["'self'", "data:", "https://*.giphy.com"],
+        "connect-src": ["'self'", "https://*.giphy.com", "wss:", "ws:"]
+      }
+    }
+  })
+); // Secure HTTP headers (includes HSTS and Giphy CSP exceptions)
 app.use(express.json());
 app.use(mongoSanitize()); // Prevent NoSQL injection
 app.use(xss()); // Prevent XSS by sanitizing input
@@ -51,6 +61,7 @@ mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/codecollab"
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/room", require("./routes/room"));
 app.use("/api/admin", require("./routes/admin"));
+app.use("/api/gifs", require("./routes/gifs"));
 
 // In-memory room state for low-latency collaboration + periodic persistence
 const roomState = new Map(); // roomId -> { code, version, dirty, lastSavedAt }
@@ -180,8 +191,16 @@ io.on("connection", (socket) => {
     })();
   });
 
-  socket.on("sendMessage", ({ roomId, message, username }) => {
-    io.to(roomId).emit("receiveMessage", { message, username });
+  socket.on("sendMessage", ({ roomId, message, username, gifUrl }) => {
+    let safeGifUrl = null;
+    if (gifUrl && typeof gifUrl === "string") {
+      // Validate that the URL matches a secure Giphy CDN host and contains no malicious patterns.
+      const giphyPattern = /^https:\/\/[a-zA-Z0-9-.]*\.giphy\.com\/[a-zA-Z0-9_/.-]+$/;
+      if (giphyPattern.test(gifUrl)) {
+        safeGifUrl = gifUrl;
+      }
+    }
+    io.to(roomId).emit("receiveMessage", { message, username, gifUrl: safeGifUrl });
   });
 
   socket.on("disconnect", () => {
