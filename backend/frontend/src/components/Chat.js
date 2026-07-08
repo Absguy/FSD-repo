@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { socket } from "../socket";
 import { AuthContext } from "../context/AuthContext";
-import { Send, Smile, Loader } from "lucide-react";
+import { Send, Loader } from "lucide-react";
 import { API_URL } from "../config";
 
 const Chat = ({ roomId, readOnly = false }) => {
